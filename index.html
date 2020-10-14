@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rock, Paper or Scissors</title>
+  </head>
+  <body
+    style="
+      background-image: url(/images/minimalism-rock-paper-scissors-wallpaper-preview.jpg);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      height: 100vh;
+    "
+  >
+    <h1 style="color: white; font-size: 50px">Let's Play</h1>
+
+    <script>
+      let playerScore = 0;
+      let computerScore = 0;
+      let pick;
+      const h1 = document.querySelector("h1");
+
+      game();
+
+      function computerPlay() {
+        const CHOOSE = ["Rock", "Paper", "Scissors"];
+        let compPick = Math.floor(Math.random() * 3);
+        return CHOOSE[compPick];
+      }
+
+      function playerPlay() {
+        pick = prompt("Let's play! type Rock, Paper or Scissors").toLowerCase();
+
+        if (pick === "rock" || pick === "paper" || pick === "scissors") {
+          let playerPick = pick[0].toUpperCase() + pick.slice(1);
+          console.log(`Player pick: ${playerPick}`);
+          const computerSelect = computerPlay();
+          console.log(`Computer pick: ${computerSelect}`);
+          playRound(playerPick, computerSelect);
+        } else {
+          alert("Invalid Input! Please type Rock, Paper or Scissors");
+          console.log(pick);
+          playerPlay();
+        }
+      }
+
+      function playRound(playerSelection, computerSelection) {
+        if (playerSelection === computerSelection) {
+          alert("It's a tie!");
+        } else if (
+          playerSelection === "Rock" &&
+          computerSelection === "Scissors"
+        ) {
+          playerScore += 1;
+          alert("You Win! Rock beats Scissors");
+          console.log("Player score is: " + playerScore);
+        } else if (
+          playerSelection === "Rock" &&
+          computerSelection === "Paper"
+        ) {
+          computerScore += 1;
+          alert("You Lose! Paper beats Rock");
+          console.log("Computer score is: " + computerScore);
+        } else if (
+          playerSelection === "Paper" &&
+          computerSelection === "Rock"
+        ) {
+          playerScore += 1;
+          alert("You Win! Paper beats Rock");
+          console.log("Player score is: " + playerScore);
+        } else if (
+          playerSelection === "Paper" &&
+          computerSelection === "Scissors"
+        ) {
+          computerScore += 1;
+          alert("You Lose! Scissors beats Paper");
+          console.log("Computer score is: " + computerScore);
+        } else if (
+          playerSelection === "Scissors" &&
+          computerSelection === "Paper"
+        ) {
+          playerScore += 1;
+          alert("You Win! Scissors beat Paper");
+          console.log("Player score is: " + playerScore);
+        } else if (
+          playerSelection === "Scissors" &&
+          computerSelection === "Rock"
+        ) {
+          computerScore += 1;
+          alert("You Lose! Rock beats Scissors");
+          console.log("Computer score is: " + computerScore);
+        }
+      }
+
+      function game() {
+        for (let i = 0; i < 5; i++) {
+          playerPlay();
+          alert(`Player: ${playerScore} || Computer: ${computerScore}`);
+        }
+        if (playerScore > computerScore) {
+          alert(`
+                    Final Score is: 
+
+             Player: ${playerScore} || Computer: ${computerScore}
+        Congratulations! You win.`);
+        } else if (playerScore < computerScore) {
+          alert(`
+                    Final Score is: 
+
+            Player: ${playerScore} || Computer: ${computerScore}
+        You Lose. Try again next time.`);
+        } else {
+          alert(`
+          
+                    Final Score is: 
+
+            Player: ${playerScore} || Computer: ${computerScore}
+        It's a tie! What a close match.`);
+        }
+
+        h1.innerText = "Refresh the browser to play again..";
+      }
+    </script>
+  </body>
+</html>
