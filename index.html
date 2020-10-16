@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rock, Paper or Scissors</title>
     <style>
+      h1{
+        color: white; 
+        font-size: 50px; 
+        text-align: center;
+      }
+      h2{
+        color: white; 
+        font-size: 30px;
+      }
       .container{
         margin: 3rem auto;
         height: 500px;
@@ -53,12 +62,33 @@
           height: 150px;
           width: 150px;
         }
+        h2{
+          text-align: center;
+        }
         .container{
           margin: auto;
           width: 100%;
         }
         .choices{
           flex-wrap: wrap;
+        }
+      }
+
+      @media screen and (max-width: 400px){
+        h1{
+          font-size: 40px;
+        }
+
+        h2{
+          font-size: 25px;
+        }
+        button{
+          height: 100px;
+          width: 100px;
+        }
+
+        p{
+          line-height: normal;
         }
       }
     </style>
@@ -69,10 +99,10 @@
       height: 100vh;
     "
   >
-    <h1 style="color: white; font-size: 50px; text-align: center;">Let's Play: First to score 5 wins!</h1>
+    <h1>Let's Play: First to score 5 wins!</h1>
 
     <div class="container">
-      <h2 style="color: white; font-size: 30px;">Choose your weapon:</h2>
+      <h2>Choose your weapon:</h2>
       <div class="choices">
         <button class="rock" value="Rock"></button>
         <button class="paper" value="Paper"></button>
