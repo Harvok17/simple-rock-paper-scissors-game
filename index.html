@@ -4,27 +4,100 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rock, Paper or Scissors</title>
+    <style>
+      .container{
+        margin: 3rem auto;
+        height: 500px;
+        width: 800px;
+      }
+      .choices {
+        margin: auto;
+        display: flex;
+        justify-content: center;
+      }
+      button{
+        height: 200px;
+        width: 200px;
+        border: 0;
+        background-color: transparent;
+        border-radius: 50%;
+        margin: 10px 30px;
+        cursor: pointer;
+      }
+      button:hover{
+      box-shadow: 0px 2px 15px 5px rgba(255,255,255,1);
+      }
+
+      p{
+        text-align: center;
+        color: white;
+        line-height: 2rem;
+      }
+
+      .rock{
+        background-image: url(images/rock.png);
+        background-size: cover;
+      }
+
+      .paper{
+        background-image: url(images/paper.png);
+        background-size: cover;
+      }
+      .scissors{
+        background-image: url(images/scissors.png);
+        background-size: cover;
+      }
+
+      @media screen and (max-width: 700px){
+        button{
+          height: 150px;
+          width: 150px;
+        }
+        .container{
+          margin: auto;
+          width: 100%;
+        }
+        .choices{
+          flex-wrap: wrap;
+        }
+      }
+    </style>
   </head>
   <body
     style="
-      background-image: url(images/minimalism-rock-paper-scissors-wallpaper-preview.jpg);
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
+      background: rgb(31, 66, 122);
       height: 100vh;
     "
   >
-    <h1 style="color: white; font-size: 50px">Let's Play</h1>
+    <h1 style="color: white; font-size: 50px; text-align: center;">Let's Play: First to score 5 wins!</h1>
+
+    <div class="container">
+      <h2 style="color: white; font-size: 30px;">Choose your weapon:</h2>
+      <div class="choices">
+        <button class="rock" value="Rock"></button>
+        <button class="paper" value="Paper"></button>
+        <button class="scissors" value="Scissors"></button>
+      </div>
+      <br><br>
+      <p>Score: <br><br>
+        Player: 0 <br>
+        Computer: 0 <br>
+      </p>
+    </div>
+
 
     <script>
-      window.onload = init();
-      function init(){
         let playerScore = 0;
-      let computerScore = 0;
-      let pick;
+        let computerScore = 0;
       const h1 = document.querySelector("h1");
+      const rock = document.querySelector(".rock");
+      const paper = document.querySelector(".paper");
+      const scissors = document.querySelector(".scissors");
+      const container = document.querySelector(".container");
+      const score = document.querySelector("p");
 
-      game();
+
+      container.addEventListener("click",playerPlay);
 
       function computerPlay() {
         const CHOOSE = ["Rock", "Paper", "Scissors"];
@@ -32,19 +105,16 @@
         return CHOOSE[compPick];
       }
 
-      function playerPlay() {
-        pick = prompt("Let's play! type Rock, Paper or Scissors").toLowerCase();
+      function playerPlay(e) {
 
-        if (pick === "rock" || pick === "paper" || pick === "scissors") {
-          let playerPick = pick[0].toUpperCase() + pick.slice(1);
+        if (e.target === rock || e.target === paper || e.target === scissors) {
+          let playerPick = e.target.value;
           console.log(`Player pick: ${playerPick}`);
           const computerSelect = computerPlay();
           console.log(`Computer pick: ${computerSelect}`);
           playRound(playerPick, computerSelect);
         } else {
-          alert("Invalid Input! Please type Rock, Paper or Scissors");
-          console.log(pick);
-          playerPlay();
+          return;
         }
       }
 
@@ -94,37 +164,27 @@
           alert("You Lose! Rock beats Scissors");
           console.log("Computer score is: " + computerScore);
         }
+        updateScore();
       }
 
-      function game() {
-        for (let i = 0; i < 5; i++) {
-          playerPlay();
-          alert(`Player: ${playerScore} || Computer: ${computerScore}`);
+      function updateScore() {
+        score.innerText = `Score:
+
+        Player: ${playerScore}
+        Computer: ${computerScore}
+        `;
+
+        if(playerScore == 5){
+          score.innerText = "Congratulations! You win!"
+          h1.innerText = "Refresh the browser to play again..";
+          container.removeEventListener("click",playerPlay);
+        } else if (computerScore == 5){
+          score.innerHTML = "You Lose. Better luck next time!<br><br> <em>Computer says: Ha! you noob!</em>"
+          h1.innerText = "Refresh the browser to play again..";
+          container.removeEventListener("click",playerPlay);
         }
-        if (playerScore > computerScore) {
-          alert(`
-                    Final Score is: 
-
-             Player: ${playerScore} || Computer: ${computerScore}
-        Congratulations! You win.`);
-        } else if (playerScore < computerScore) {
-          alert(`
-                    Final Score is: 
-
-            Player: ${playerScore} || Computer: ${computerScore}
-        You Lose. Try again next time.`);
-        } else {
-          alert(`
-          
-                    Final Score is: 
-
-            Player: ${playerScore} || Computer: ${computerScore}
-        It's a tie! What a close match.`);
-        }
-
-        h1.innerText = "Refresh the browser to play again..";
-      }
-      }
+       }
+      
       
     </script>
   </body>
