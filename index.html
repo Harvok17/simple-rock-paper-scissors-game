@@ -3,6 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/images/scissors-pngrepo-com.png"
+    />
     <title>Rock, Paper or Scissors</title>
     <style>
       h1{
@@ -42,6 +48,7 @@
         color: white;
         line-height: 2rem;
       }
+
 
       .rock{
         background-image: url(images/rock.png);
@@ -113,6 +120,8 @@
         Player: 0 <br>
         Computer: 0 <br>
       </p>
+
+      <p id="result"></p>
     </div>
 
 
@@ -125,6 +134,7 @@
       const scissors = document.querySelector(".scissors");
       const container = document.querySelector(".container");
       const score = document.querySelector("p");
+      const result = document.getElementById("result");
 
 
       container.addEventListener("click",playerPlay);
@@ -139,9 +149,7 @@
 
         if (e.target === rock || e.target === paper || e.target === scissors) {
           let playerPick = e.target.value;
-          console.log(`Player pick: ${playerPick}`);
           const computerSelect = computerPlay();
-          console.log(`Computer pick: ${computerSelect}`);
           playRound(playerPick, computerSelect);
         } else {
           return;
@@ -150,50 +158,31 @@
 
       function playRound(playerSelection, computerSelection) {
         if (playerSelection === computerSelection) {
-          alert("It's a tie!");
+          result.innerText = "It's a tie!";
         } else if (
           playerSelection === "Rock" &&
-          computerSelection === "Scissors"
-        ) {
-          playerScore += 1;
-          alert("You Win! Rock beats Scissors");
-          console.log("Player score is: " + playerScore);
-        } else if (
-          playerSelection === "Rock" &&
-          computerSelection === "Paper"
-        ) {
-          computerScore += 1;
-          alert("You Lose! Paper beats Rock");
-          console.log("Computer score is: " + computerScore);
-        } else if (
+          computerSelection === "Scissors" ||
           playerSelection === "Paper" &&
-          computerSelection === "Rock"
-        ) {
-          playerScore += 1;
-          alert("You Win! Paper beats Rock");
-          console.log("Player score is: " + playerScore);
-        } else if (
-          playerSelection === "Paper" &&
-          computerSelection === "Scissors"
-        ) {
-          computerScore += 1;
-          alert("You Lose! Scissors beats Paper");
-          console.log("Computer score is: " + computerScore);
-        } else if (
+          computerSelection === "Rock" ||
           playerSelection === "Scissors" &&
           computerSelection === "Paper"
         ) {
           playerScore += 1;
-          alert("You Win! Scissors beat Paper");
-          console.log("Player score is: " + playerScore);
+          result.innerText = `You Win! ${playerSelection} beats ${computerSelection}`;
+          
         } else if (
+          playerSelection === "Rock" &&
+          computerSelection === "Paper" ||
+          playerSelection === "Paper" &&
+          computerSelection === "Scissors" ||
           playerSelection === "Scissors" &&
           computerSelection === "Rock"
         ) {
           computerScore += 1;
-          alert("You Lose! Rock beats Scissors");
-          console.log("Computer score is: " + computerScore);
-        }
+          result.innerText = `You Lose! ${computerSelection} beats ${playerSelection}`;
+  
+        }  
+
         updateScore();
       }
 
@@ -207,9 +196,11 @@
         if(playerScore == 5){
           score.innerText = "Congratulations! You win!"
           h1.innerText = "Refresh the browser to play again..";
+          result.innerText = "";
           container.removeEventListener("click",playerPlay);
         } else if (computerScore == 5){
-          score.innerHTML = "You Lose. Better luck next time!<br><br> <em>Computer says: Ha! you noob!</em>"
+          score.innerHTML = "You Lose. Better luck next time!<br><br> <em>Computer says: Ha! you noob!</em>";
+          result.innerText = "";
           h1.innerText = "Refresh the browser to play again..";
           container.removeEventListener("click",playerPlay);
         }
